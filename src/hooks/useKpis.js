@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { api } from '../lib/api'
 
 export function useKpis() {
   const [data, setData] = useState(null)
@@ -6,14 +7,14 @@ export function useKpis() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetch('/api/dashboard/kpis')
-      .then(res => {
-        if (!res.ok) throw new Error(`Erro ${res.status}: ${res.statusText}`)
-        return res.json()
-      })
-      .then(setData)
-      .catch(err => setError(err.message))
-      .finally(() => setLoading(false))
+    let cancelled = false
+
+    api.get('/dashboard/kpis')
+      .then(result => { if (!cancelled) setData(result) })
+      .catch(err =>    { if (!cancelled) setError(err.message) })
+      .finally(() =>   { if (!cancelled) setLoading(false) })
+
+    return () => { cancelled = true }
   }, [])
 
   return { data, loading, error }
