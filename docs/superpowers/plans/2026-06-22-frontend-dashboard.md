@@ -13,7 +13,7 @@
 | Pessoa | Arquivo | Resumo |
 |---|---|---|
 | Matheus | [`2026-06-22-frontend-dashboard-matheus.md`](./2026-06-22-frontend-dashboard-matheus.md) | Scaffold + 3 widgets Fase 1 + 2 widgets v2 + Fase 3 (período) |
-| Laura | [`2026-06-22-frontend-dashboard-laura.md`](./2026-06-22-frontend-dashboard-laura.md) | 2 widgets Fase 1 + 2 widgets v2 |
+| Laura | [`2026-06-22-frontend-dashboard-laura.md`](./2026-06-22-frontend-dashboard-laura.md) | 1 widget Fase 1 + 2 widgets v2 (`TopComputersChart` descartado) |
 | M4 | [`2026-06-22-frontend-dashboard-m4.md`](./2026-06-22-frontend-dashboard-m4.md) | 2 widgets Fase 1 + 2 widgets v2 |
 
 ---
@@ -62,7 +62,7 @@ Existem apenas duas dependências cruzadas:
 | 2 | `RatiosCard` | Matheus | Fase 1 |
 | 3 | `UserRiskTable` | Matheus | Fase 1 |
 | 4 | `DailyLoginsChart` | Laura | Fase 1 |
-| 5 | `TopComputersChart` | Laura | Fase 1 |
+| 5 | ~~`TopComputersChart`~~ | Laura | ❌ **Descartado (2026-07-01)** — não será implementado |
 | 6 | `TopUsersChart` | M4 | Fase 1 |
 | 7 | `UserRiskDistribution` | M4 | Fase 1 |
 | 8 | `FailedLoginsKpi` | Matheus | Fase 2 (mock) |
@@ -94,7 +94,7 @@ Cada dev periodicamente atualiza sua branch com `development` (`git merge develo
 - `npm run dev` sobe sem erro no console
 
 ### Projeto concluído
-- Os 13 widgets renderizam (7 com dado real, 6 com mock)
+- Os 12 widgets renderizam (6 com dado real, 6 com mock) — `TopComputersChart` foi descartado em 2026-07-01 e não será implementado
 - Seletor de período funciona end-to-end (se backend Fase 2 estiver pronto)
 - `npm run dev` no front + `python app.py` no back = dashboard funcional em `localhost:5173`
 - Tudo está em `main`

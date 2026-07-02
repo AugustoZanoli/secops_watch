@@ -80,32 +80,16 @@ Antes de começar qualquer widget, abra estes arquivos pra entender os padrões 
 
 ---
 
-## Tarefa L2: `useTopComputers` + `TopComputersChart`
+## ~~Tarefa L2: `useTopComputers` + `TopComputersChart`~~ — ❌ DESCARTADA
 
-**Arquivos**:
-- Criar: `src/hooks/useTopComputers.js`
-- Modificar: `src/components/widgets/TopComputersChart.jsx`
-
-**Padrão do hook**: copiar `useKpis`, endpoint `'/dashboard/top-computers'`.
-
-**Dado**: array `[{ computer_id, access_count, unique_users }, ...]`.
-
-**O que renderizar**: gráfico de **barras horizontais** dentro de `<ChartCard title="Top computadores por acessos">`. Top 10 itens (use `data.slice(0, 10)`):
-- Eixo Y = `computer_id`
-- Eixo X = `access_count`
-
-**Componentes Recharts**: `BarChart` com `layout="vertical"`, `Bar`, `XAxis`, `YAxis`, etc.
-
-**Notas**:
-- Pra barras horizontais: `<BarChart layout="vertical">` + `<XAxis type="number">` + `<YAxis type="category" dataKey="computer_id">`.
-- Cor sugerida: roxo `#a855f7`.
-- Bordas arredondadas só do lado direito: `radius={[0, 4, 4, 0]}` na `<Bar>`.
-
-**Passos**:
-- [ ] Criar hook
-- [ ] Implementar widget
-- [ ] Validar — barras horizontais aparecem
-- [ ] Commit: `feat: widget TopComputersChart`
+> **Decisão (2026-07-01)**: este widget **não será implementado**. A tarefa foi descartada.
+>
+> Ações já executadas no descarte:
+> - `src/components/widgets/TopComputersChart.jsx` (placeholder) foi **removido**
+> - Import e slot do widget foram **removidos** do `Dashboard.jsx` (o `TopUsersChart` passou a ocupar a linha sozinho na seção "Atividade")
+> - O hook `useTopComputers` nunca chegou a ser criado — nada a remover
+>
+> O dashboard final passa a ter **12 widgets** (6 com dado real + 6 mockados).
 
 ---
 
@@ -236,7 +220,7 @@ git push origin development
 
 - [ ] Esperou scaffold em `main` antes de começar
 - [ ] `useDailyLogins` + `DailyLoginsChart` com dados reais
-- [ ] `useTopComputers` + `TopComputersChart` com dados reais
+- ~~`useTopComputers` + `TopComputersChart`~~ — ❌ descartado (2026-07-01), não será implementado
 - [ ] `FailedLoginsChart` com mock + comentário `TODO v2`
 - [ ] `AccessHeatmap` com mock + comentário `TODO v2`
 - [ ] Tudo mergeado em `development`

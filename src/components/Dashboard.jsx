@@ -9,7 +9,6 @@ import { AccessHeatmap } from './widgets/AccessHeatmap'
 import { RequestsByIpChart } from './widgets/RequestsByIpChart'
 import { DailyLoginsChart } from './widgets/DailyLoginsChart'
 import { TopUsersChart } from './widgets/TopUsersChart'
-import { TopComputersChart } from './widgets/TopComputersChart'
 import { UserRiskTable } from './widgets/UserRiskTable'
 
 function SectionHeader({ children }) {
@@ -68,9 +67,8 @@ export function Dashboard() {
 
         <SectionHeader>Atividade</SectionHeader>
         <DailyLoginsChart />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4">
+        <div className="mt-4">
           <TopUsersChart />
-          <TopComputersChart />
         </div>
 
         <SectionHeader>Detalhamento</SectionHeader>

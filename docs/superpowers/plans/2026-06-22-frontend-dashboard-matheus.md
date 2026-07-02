@@ -719,7 +719,7 @@ git commit -m "feat: integra PeriodSelector no Dashboard"
 
 > Só funciona end-to-end se o backend aceitar `?period=24h|7d|30d`. Se backend não estiver pronto, a UI funciona mas dados não mudam — tudo bem, fica preparado.
 
-- [ ] **Passo 1**: para cada hook (`useKpis`, `useUserRisk`, `useDailyLogins`, `useTopUsers`, `useTopComputers`), aplicar mesmo padrão. Exemplo:
+- [ ] **Passo 1**: para cada hook (`useKpis`, `useUserRisk`, `useDailyLogins`, `useTopUsers`), aplicar mesmo padrão. (`useTopComputers` foi descartado em 2026-07-01 junto com o widget `TopComputersChart` — não existe.) Exemplo:
 
 ```js
 import { useState, useEffect } from 'react'

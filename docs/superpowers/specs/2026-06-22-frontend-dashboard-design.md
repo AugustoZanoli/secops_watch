@@ -106,7 +106,7 @@ src/
 | 2 | `RatiosCard` | reaproveita `useKpis` | (reaproveita) | derivado | Card com 3 linhas calculadas | **Matheus** |
 | 3 | `UserRiskTable` | `useUserRisk` (cria) | `GET /api/dashboard/user-risk` | `user_risk` | Tabela ranking + badges | **Matheus** |
 | 4 | `DailyLoginsChart` | `useDailyLogins` | `GET /api/dashboard/daily-logins` | `daily_login_trend` | Linha (Recharts) | **Laura** |
-| 5 | `TopComputersChart` | `useTopComputers` | `GET /api/dashboard/top-computers` | `top_computers` | Barras horizontais | **Laura** |
+| 5 | ~~`TopComputersChart`~~ | ~~`useTopComputers`~~ | — | — | ❌ **Descartado (2026-07-01)** — não será implementado | **Laura** |
 | 6 | `TopUsersChart` | `useTopUsers` | `GET /api/dashboard/top-users` | `top_users` | Barras horizontais | **M4** |
 | 7 | `UserRiskDistribution` | reaproveita `useUserRisk` | (reaproveita) | `user_risk` | Donut severidade | **M4** |
 
