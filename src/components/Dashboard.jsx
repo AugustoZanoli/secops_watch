@@ -10,6 +10,8 @@ import { RequestsByIpChart } from './widgets/RequestsByIpChart'
 import { DailyLoginsChart } from './widgets/DailyLoginsChart'
 import { TopUsersChart } from './widgets/TopUsersChart'
 import { UserRiskTable } from './widgets/UserRiskTable'
+import { PeriodProvider } from '../contexts/PeriodContext'
+import { PeriodSelector } from './ui/PeriodSelector'
 
 function SectionHeader({ children }) {
   return (
@@ -21,6 +23,7 @@ function SectionHeader({ children }) {
 
 export function Dashboard() {
   return (
+    <PeriodProvider>
     <div className="min-h-screen bg-gray-950 text-gray-100">
 
       <header className="border-b border-gray-800 px-8 py-4 flex items-center justify-between">
@@ -28,16 +31,7 @@ export function Dashboard() {
           <h1 className="text-lg font-semibold text-white">SecOps Watch</h1>
           <p className="text-xs text-gray-500">Dashboard de segurança</p>
         </div>
-        <div className="flex items-center gap-2">
-          {['24h', '7d', '30d'].map(t => (
-            <button
-              key={t}
-              className="text-xs px-3 py-1.5 rounded-lg border border-gray-700 text-gray-400 hover:border-blue-500 hover:text-blue-400 transition-colors"
-            >
-              {t}
-            </button>
-          ))}
-        </div>
+        <PeriodSelector />
       </header>
 
       <main className="p-8 max-w-[1600px] mx-auto">
@@ -76,5 +70,6 @@ export function Dashboard() {
 
       </main>
     </div>
+    </PeriodProvider>
   )
 }
