@@ -1,37 +1,36 @@
+import { useActivityHeatmap } from '../../hooks/useActivityHeatmap'
 import { ChartCard } from '../ui/ChartCard'
 
-// TODO v2: substituir por hook useAccessHeatmap quando endpoint existir
-// Endpoint planejado: GET /api/dashboard/access-heatmap?days=7
-// Depende de: tabela login_events
+// backend usa dow: 0=segunda ... 6=domingo (day % 7 sobre um dataset ancorado numa segunda)
+const DAYS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom']
+const EMPTY_CELL = { authentications: 0, is_anomaly: false }
 
-// 168 células (7 dias × 24h), cada uma { day, hour, count, is_anomaly }
-const MOCK_DATA = Array.from({ length: 7 }, (_, day) =>
-  Array.from({ length: 24 }, (_, hour) => {
-    const isWorkHour = hour >= 8 && hour <= 18 && day >= 1 && day <= 5
-    const baseCount = isWorkHour
-      ? 80 + Math.floor(Math.random() * 80)
-      : Math.floor(Math.random() * 20)
-    const isAnomaly = !isWorkHour && baseCount > 15
-    return { day, hour, count: baseCount, is_anomaly: isAnomaly }
-  })
-).flat()
-
-const DAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
-
-// Helper de cor: retorna a classe Tailwind conforme o count e se é anomalia
+// Helper de cor: retorna a classe Tailwind conforme o volume e se é anomalia
 function cellColor(count, isAnomaly) {
   if (isAnomaly) return 'bg-orange-500'
-  if (count >= 120) return 'bg-blue-300'
-  if (count >= 60) return 'bg-blue-500'
+  if (count >= 300_000) return 'bg-blue-300'
+  if (count >= 150_000) return 'bg-blue-500'
   if (count > 0) return 'bg-blue-900'
   return 'bg-gray-800'
 }
 
 export function AccessHeatmap() {
-  const data = MOCK_DATA
+  const { data, loading, error } = useActivityHeatmap()
+
+  const avg = data?.length
+    ? data.reduce((sum, c) => sum + c.authentications, 0) / data.length
+    : 0
+
+  // anomalia = fora do horário comercial (madrugada ou fim de semana) com volume acima da média
+  const cellMap = new Map(
+    (data ?? []).map(c => {
+      const offHours = c.dow >= 5 || c.hour < 7 || c.hour >= 20
+      return [`${c.dow}-${c.hour}`, { ...c, is_anomaly: offHours && c.authentications > avg }]
+    })
+  )
 
   return (
-    <ChartCard title="Mapa de calor de acessos (7d × 24h)">
+    <ChartCard title="Mapa de calor de acessos (7d × 24h)" loading={loading} error={error}>
       <div className="overflow-x-auto">
         {/* Header com horas */}
         <div className="flex gap-1 ml-10 mb-1">
@@ -46,12 +45,12 @@ export function AccessHeatmap() {
           <div key={dayIdx} className="flex items-center gap-1 mb-1">
             <span className="w-9 text-xs text-gray-400 text-right pr-1">{dayLabel}</span>
             {Array.from({ length: 24 }, (_, hour) => {
-              const cell = data.find(c => c.day === dayIdx && c.hour === hour)
+              const cell = cellMap.get(`${dayIdx}-${hour}`) ?? EMPTY_CELL
               return (
                 <div
                   key={hour}
-                  className={`w-5 h-5 rounded-sm ${cellColor(cell.count, cell.is_anomaly)}`}
-                  title={`${dayLabel} ${hour}h — ${cell.count} acessos${cell.is_anomaly ? ' (anomalia)' : ''}`}
+                  className={`w-5 h-5 rounded-sm ${cellColor(cell.authentications, cell.is_anomaly)}`}
+                  title={`${dayLabel} ${hour}h — ${cell.authentications.toLocaleString('pt-BR')} acessos${cell.is_anomaly ? ' (anomalia)' : ''}`}
                 />
               )
             })}

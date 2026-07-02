@@ -1,15 +1,4 @@
-// TODO v2: substituir por hook useAnomalyTypes quando endpoint existir
-// Endpoint planejado: GET /api/dashboard/anomaly-types
-// Depende de: tabela login_events
-
-const MOCK_DATA = [
-  { type: 'Falha de login',        count: 218 },
-  { type: 'IP desconhecido',       count: 145 },
-  { type: 'Excesso de tentativas', count: 92 },
-  { type: 'Horário incomum',       count: 67 },
-  { type: 'Dispositivo novo',      count: 41 },
-]
-
+import { useAnomalyTypes } from '../../hooks/useAnomalyTypes'
 import { ChartCard } from '../ui/ChartCard'
 import {
   BarChart, Bar, XAxis, YAxis,
@@ -17,10 +6,10 @@ import {
 } from 'recharts'
 
 export function AnomalyTypesChart() {
-  const data = MOCK_DATA
+  const { data, loading, error } = useAnomalyTypes()
 
   return (
-    <ChartCard title="Tipos de anomalia">
+    <ChartCard title="Tipos de anomalia" loading={loading} error={error}>
       <ResponsiveContainer width="100%" height={280}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />

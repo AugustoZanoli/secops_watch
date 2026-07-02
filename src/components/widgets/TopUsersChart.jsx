@@ -8,7 +8,8 @@ import {
 export function TopUsersChart() {
   const { data, loading, error } = useTopUsers()
 
-  const top10 = data?.slice(0, 10) ?? []
+  // top-users vem ordenado por risk_score; reordenamos por total_logins pro título do widget
+  const top10 = data ? [...data].sort((a, b) => b.total_logins - a.total_logins).slice(0, 10) : []
 
   return (
     <ChartCard title="Top usuários por logins" loading={loading} error={error}>
@@ -18,7 +19,7 @@ export function TopUsersChart() {
           <XAxis type="number" />
           <YAxis type="category" dataKey="user_id" width={100} tick={{ fontSize: 16 }} />
           <Tooltip />
-          <Bar dataKey="login_count" fill="#3b82f6" radius={[0, 4, 4, 0]} />
+          <Bar dataKey="total_logins" fill="#3b82f6" radius={[0, 4, 4, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </ChartCard>

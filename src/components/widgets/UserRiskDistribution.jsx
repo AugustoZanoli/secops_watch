@@ -5,11 +5,12 @@ import {
   Tooltip, Legend, ResponsiveContainer
 } from 'recharts'
 
-// o backend usa 3 níveis em inglês (HIGH/MEDIUM/LOW), não os 4 em português do spec
+// backend devolve 4 níveis capitalizados em inglês: Critical/High/Medium/Low
 const LEVELS = [
-  { key: 'HIGH',   label: 'Alto',  color: '#ef4444' },
-  { key: 'MEDIUM', label: 'Médio', color: '#eab308' },
-  { key: 'LOW',    label: 'Baixo', color: '#3b82f6' },
+  { key: 'Critical', label: 'Crítico', color: '#dc2626' },
+  { key: 'High',     label: 'Alto',    color: '#f97316' },
+  { key: 'Medium',   label: 'Médio',   color: '#eab308' },
+  { key: 'Low',      label: 'Baixo',   color: '#3b82f6' },
 ]
 
 export function UserRiskDistribution() {
