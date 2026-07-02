@@ -106,9 +106,9 @@ src/
 | 2 | `RatiosCard` | reaproveita `useKpis` | (reaproveita) | derivado | Card com 3 linhas calculadas | **Matheus** |
 | 3 | `UserRiskTable` | `useUserRisk` (cria) | `GET /api/dashboard/user-risk` | `user_risk` | Tabela ranking + badges | **Matheus** |
 | 4 | `DailyLoginsChart` | `useDailyLogins` | `GET /api/dashboard/daily-logins` | `daily_login_trend` | Linha (Recharts) | **Laura** |
-| 5 | `TopComputersChart` | `useTopComputers` | `GET /api/dashboard/top-computers` | `top_computers` | Barras horizontais | **Laura** |
+| 5 | ~~`TopComputersChart`~~ | ~~`useTopComputers`~~ | — | — | ❌ **Descartado (2026-07-01)** — não será implementado | **Laura** |
 | 6 | `TopUsersChart` | `useTopUsers` | `GET /api/dashboard/top-users` | `top_users` | Barras horizontais | **M4** |
-| 7 | `UserRiskDistribution` | reaproveita `useUserRisk` | (reaproveita) | `user_risk` | Donut severidade | **M4** |
+| 7 | `UserRiskDistribution` | `useRiskSummary` | `GET /api/dashboard/risk-summary` | `user_risk` | Donut severidade | **M4** |
 
 ### Fase 2 — mockados (Fase 1 entrega com mock + comentário de migração)
 
@@ -396,15 +396,19 @@ const MOCK_DATA = [
 
 ## 8. Contratos com o backend (Fase 1)
 
-Endpoints que o backend deve expor. Todos retornam JSON e estão sob o prefixo `/api/dashboard/`.
+> ⚠️ **Corrigido em 2026-07-01**: o backend (`secops_watch_api`) foi implementado com rotas diferentes das planejadas originalmente aqui (que devolviam 404 no frontend). A tabela abaixo reflete as **rotas reais**. Diferenças relevantes:
+> - Usuários ficam sob o prefixo `/api/users/` (blueprint próprio), não `/api/dashboard/`
+> - `risk_level` tem **3 níveis em inglês** (`HIGH`/`MEDIUM`/`LOW`), não 4 em português — os widgets traduzem para exibição
+> - `/api/users/risk` é **paginado** (default `limit=50`, máx. 200); por isso o `UserRiskDistribution` usa `/api/dashboard/risk-summary` (contagem exata por nível no banco inteiro) via hook próprio `useRiskSummary`, em vez de agregar no cliente
 
-| Endpoint | Tabela | Resposta esperada |
+| Endpoint | Tabela | Resposta |
 |---|---|---|
 | `GET /api/dashboard/kpis` | `dashboard_kpis` | `{ total_logins, total_users, total_computers, period_days, avg_logins_per_day }` |
-| `GET /api/dashboard/daily-logins` | `daily_login_trend` | `[{ day, login_count, is_low_volume_day }, ...]` |
-| `GET /api/dashboard/top-users` | `top_users` | `[{ user_id, login_count, unique_computers }, ...]` |
-| `GET /api/dashboard/top-computers` | `top_computers` | `[{ computer_id, access_count, unique_users }, ...]` |
-| `GET /api/dashboard/user-risk` | `user_risk` | `[{ user_id, login_count, unique_computers, risk_level, risk_score }, ...]` |
+| `GET /api/dashboard/login-trend` | `daily_login_trend` | `[{ day, login_count, is_low_volume_day }, ...]` |
+| `GET /api/dashboard/risk-summary` | `user_risk` | `{ HIGH, MEDIUM, LOW, total }` (contagem por nível) |
+| `GET /api/users/top?limit=10` | `top_users` | `[{ user_id, login_count, unique_computers }, ...]` |
+| `GET /api/users/risk?limit=50` | `user_risk` | `[{ user_id, login_count, unique_computers, risk_level, risk_score }, ...]` ordenado por `risk_score` desc |
+| ~~`GET /api/computers/top`~~ | `top_computers` | não consumido — widget `TopComputersChart` descartado |
 
 ---
 

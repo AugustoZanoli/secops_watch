@@ -603,6 +603,13 @@ git push origin development
 
 > Só começa **depois** que Laura e M4 mergearam seus widgets em `main`.
 
+> ✅ **IMPLEMENTADA (2026-07-01)** — P1 a P4 concluídas na branch `matheus` (lint + build passando). Duas adaptações em relação ao código planejado, exigidas pelo ESLint do projeto:
+>
+> 1. **Hooks (P4)**: a regra `react-hooks/set-state-in-effect` proíbe `setLoading(true)`/`setError(null)` síncronos dentro do `useEffect`. Os hooks guardam `{ period, data, error }` num único estado e **derivam** `loading` comparando o `period` do resultado com o atual — mesmo comportamento, sem setState no corpo do effect.
+> 2. **PeriodContext (P1)**: `export function usePeriod` num arquivo que também exporta componente viola `react-refresh/only-export-components`; recebeu um `eslint-disable-next-line` pontual (padrão comum em arquivos de context).
+>
+> Falta apenas a **P5** (push + merge para `development` → `main`). Atenção: no remoto a branch de integração chama-se `origin/developer` (não `development`).
+
 ## Tarefa P1: Criar `PeriodContext`
 
 - [ ] **Passo 1**: criar `src/contexts/PeriodContext.jsx`:
@@ -719,7 +726,7 @@ git commit -m "feat: integra PeriodSelector no Dashboard"
 
 > Só funciona end-to-end se o backend aceitar `?period=24h|7d|30d`. Se backend não estiver pronto, a UI funciona mas dados não mudam — tudo bem, fica preparado.
 
-- [ ] **Passo 1**: para cada hook (`useKpis`, `useUserRisk`, `useDailyLogins`, `useTopUsers`, `useTopComputers`), aplicar mesmo padrão. Exemplo:
+- [ ] **Passo 1**: para cada hook (`useKpis`, `useUserRisk`, `useDailyLogins`, `useTopUsers`), aplicar mesmo padrão. (`useTopComputers` foi descartado em 2026-07-01 junto com o widget `TopComputersChart` — não existe.) Exemplo:
 
 ```js
 import { useState, useEffect } from 'react'
@@ -794,6 +801,6 @@ git push origin main
 - [ ] `FailedLoginsKpi` com mock + comentário `TODO v2`
 - [ ] `OutOfPatternKpi` com mock + comentário `TODO v2`
 - [ ] Seus widgets mergeados em `development`
-- [ ] Laura e M4 terminaram → começar Fase 3
-- [ ] `PeriodContext` + `PeriodSelector` + refator de hooks
+- [x] Laura e M4 terminaram → começar Fase 3 (`TopComputersChart` da Laura foi descartado)
+- [x] `PeriodContext` + `PeriodSelector` + refator de hooks (2026-07-01)
 - [ ] Merge final pra `main`
