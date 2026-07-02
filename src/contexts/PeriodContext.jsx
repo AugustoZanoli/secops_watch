@@ -11,6 +11,7 @@ export function PeriodProvider({ children }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function usePeriod() {
   const ctx = useContext(PeriodContext)
   if (!ctx) throw new Error('usePeriod deve estar dentro de <PeriodProvider>')
