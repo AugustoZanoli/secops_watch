@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { api } from '../lib/api'
 import { usePeriod } from '../contexts/PeriodContext'
 
-export function useKpis() {
+export function useUserRisk() {
   const { period } = usePeriod()
   // guarda o período junto do resultado: se for diferente do atual, ainda está carregando
   const [result, setResult] = useState({ period: null, data: null, error: null })
@@ -10,7 +10,7 @@ export function useKpis() {
   useEffect(() => {
     let cancelled = false
 
-    api.get(`/dashboard/kpis?period=${period}`)
+    api.get(`/users/risk?period=${period}`)
       .then(data => { if (!cancelled) setResult({ period, data, error: null }) })
       .catch(err => { if (!cancelled) setResult({ period, data: null, error: err.message }) })
 
