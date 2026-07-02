@@ -1,17 +1,23 @@
 import { useUserRisk } from '../../hooks/useUserRisk'
 import { ChartCard } from '../ui/ChartCard'
 
+// o backend usa 3 níveis em inglês (HIGH/MEDIUM/LOW), não os 4 em português do spec
 const SEVERITY_STYLES = {
-  'Crítico': 'bg-red-500/20 text-red-400',
-  'Alto':    'bg-orange-500/20 text-orange-400',
-  'Médio':   'bg-yellow-500/20 text-yellow-400',
-  'Baixo':   'bg-blue-500/20 text-blue-400',
+  HIGH:   'bg-red-500/20 text-red-400',
+  MEDIUM: 'bg-yellow-500/20 text-yellow-400',
+  LOW:    'bg-blue-500/20 text-blue-400',
+}
+
+const SEVERITY_LABELS = {
+  HIGH:   'Alto',
+  MEDIUM: 'Médio',
+  LOW:    'Baixo',
 }
 
 function SeverityBadge({ level }) {
   return (
     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${SEVERITY_STYLES[level] ?? 'bg-gray-500/20 text-gray-400'}`}>
-      {level}
+      {SEVERITY_LABELS[level] ?? level}
     </span>
   )
 }

@@ -10,7 +10,7 @@ export function useTopUsers() {
   useEffect(() => {
     let cancelled = false
 
-    api.get(`/dashboard/top-users?period=${period}`)
+    api.get(`/users/top?period=${period}`)
       .then(data => { if (!cancelled) setResult({ period, data, error: null }) })
       .catch(err => { if (!cancelled) setResult({ period, data: null, error: err.message }) })
 

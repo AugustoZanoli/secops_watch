@@ -10,7 +10,7 @@ export function useUserRisk() {
   useEffect(() => {
     let cancelled = false
 
-    api.get(`/dashboard/user-risk?period=${period}`)
+    api.get(`/users/risk?period=${period}`)
       .then(data => { if (!cancelled) setResult({ period, data, error: null }) })
       .catch(err => { if (!cancelled) setResult({ period, data: null, error: err.message }) })
 

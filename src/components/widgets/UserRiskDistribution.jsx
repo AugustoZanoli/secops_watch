@@ -1,29 +1,25 @@
-import { useUserRisk } from '../../hooks/useUserRisk'
+import { useRiskSummary } from '../../hooks/useRiskSummary'
 import { ChartCard } from '../ui/ChartCard'
 import {
   PieChart, Pie, Cell,
   Tooltip, Legend, ResponsiveContainer
 } from 'recharts'
 
-const COLORS = {
-  'Crítico': '#ef4444',
-  'Alto':    '#f97316',
-  'Médio':   '#eab308',
-  'Baixo':   '#3b82f6',
-}
-
-function aggregateByLevel(users) {
-  const counts = {}
-  for (const u of users) {
-    counts[u.risk_level] = (counts[u.risk_level] || 0) + 1
-  }
-  return Object.entries(counts).map(([level, value]) => ({ level, value }))
-}
+// o backend usa 3 níveis em inglês (HIGH/MEDIUM/LOW), não os 4 em português do spec
+const LEVELS = [
+  { key: 'HIGH',   label: 'Alto',  color: '#ef4444' },
+  { key: 'MEDIUM', label: 'Médio', color: '#eab308' },
+  { key: 'LOW',    label: 'Baixo', color: '#3b82f6' },
+]
 
 export function UserRiskDistribution() {
-  const { data, loading, error } = useUserRisk()
+  const { data, loading, error } = useRiskSummary()
 
-  const chartData = data ? aggregateByLevel(data) : []
+  const chartData = data
+    ? LEVELS
+        .map(l => ({ label: l.label, color: l.color, value: data[l.key] ?? 0 }))
+        .filter(entry => entry.value > 0)
+    : []
 
   return (
     <ChartCard title="Distribuição por severidade" loading={loading} error={error}>
@@ -32,12 +28,12 @@ export function UserRiskDistribution() {
           <Pie
             data={chartData}
             dataKey="value"
-            nameKey="level"
+            nameKey="label"
             innerRadius={60}
             outerRadius={90}
           >
             {chartData.map((entry, i) => (
-              <Cell key={i} fill={COLORS[entry.level] ?? '#6b7280'} />
+              <Cell key={i} fill={entry.color} />
             ))}
           </Pie>
           <Tooltip formatter={(value, name) => [value, name]} />
