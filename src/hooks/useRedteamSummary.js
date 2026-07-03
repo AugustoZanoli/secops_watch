@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react'
 import { api } from '../lib/api'
 
-// Usa /dashboard/top-users (não /dashboard/user-risk): é a única rota que traz
-// contagens de login/computadores junto do risk_score, mesmo limitada a 100 linhas.
-export function useUserRisk() {
+export function useRedteamSummary() {
   const [result, setResult] = useState({ data: null, loading: true, error: null })
 
   useEffect(() => {
     let cancelled = false
 
-    api.get('/dashboard/top-users')
+    api.get('/dashboard/redteam-summary')
       .then(data => { if (!cancelled) setResult({ data, loading: false, error: null }) })
       .catch(err => { if (!cancelled) setResult({ data: null, loading: false, error: err.message }) })
 

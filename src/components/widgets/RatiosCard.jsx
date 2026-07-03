@@ -7,14 +7,14 @@ export function RatiosCard() {
 
   const ratios = data
     ? [
-        { label: 'Computadores por usuário', value: (data.total_computers / data.total_users).toFixed(2) },
-        { label: 'Logins por usuário/dia', value: (data.avg_logins_per_day / data.total_users).toFixed(2) },
-        { label: 'Logins por computador/dia', value: (data.avg_logins_per_day / data.total_computers).toFixed(2) },
+        { label: 'Taxa de usuários suspeitos', value: `${((data.suspicious_users / data.total_users) * 100).toFixed(1)}%` },
+        { label: 'Taxa de usuários críticos', value: `${((data.critical_users / data.total_users) * 100).toFixed(1)}%` },
+        { label: 'Taxa de falha de autenticação', value: `${(data.authentication_failure_rate * 100).toFixed(1)}%` },
       ]
     : []
 
   const maxVal = data
-    ? Math.max(data.avg_logins_per_day, data.total_computers, data.total_users)
+    ? Math.max(data.critical_users, data.high_users, data.medium_users, data.low_users)
     : 1
 
   return (
@@ -29,25 +29,32 @@ export function RatiosCard() {
       </div>
       <div className="flex flex-col gap-3">
         <StatBar
-          label="Média diária"
-          value={data?.avg_logins_per_day ?? 0}
-          displayValue={String(data?.avg_logins_per_day ?? '')}
+          label="Críticos"
+          value={data?.critical_users ?? 0}
+          displayValue={String(data?.critical_users ?? '')}
+          max={maxVal}
+          color="bg-red-500"
+        />
+        <StatBar
+          label="Altos"
+          value={data?.high_users ?? 0}
+          displayValue={String(data?.high_users ?? '')}
+          max={maxVal}
+          color="bg-orange-500"
+        />
+        <StatBar
+          label="Médios"
+          value={data?.medium_users ?? 0}
+          displayValue={String(data?.medium_users ?? '')}
+          max={maxVal}
+          color="bg-yellow-500"
+        />
+        <StatBar
+          label="Baixos"
+          value={data?.low_users ?? 0}
+          displayValue={String(data?.low_users ?? '')}
           max={maxVal}
           color="bg-blue-500"
-        />
-        <StatBar
-          label="Computadores"
-          value={data?.total_computers ?? 0}
-          displayValue={String(data?.total_computers ?? '')}
-          max={maxVal}
-          color="bg-green-500"
-        />
-        <StatBar
-          label="Usuários"
-          value={data?.total_users ?? 0}
-          displayValue={String(data?.total_users ?? '')}
-          max={maxVal}
-          color="bg-purple-500"
         />
       </div>
     </ChartCard>

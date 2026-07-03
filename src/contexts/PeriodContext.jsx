@@ -3,7 +3,7 @@ import { createContext, useContext, useState } from 'react'
 const PeriodContext = createContext(null)
 
 export function PeriodProvider({ children }) {
-  const [period, setPeriod] = useState('7d')
+  const [period, setPeriod] = useState('Tudo')
   return (
     <PeriodContext.Provider value={{ period, setPeriod }}>
       {children}

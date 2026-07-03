@@ -1,6 +1,6 @@
 import { usePeriod } from '../../contexts/PeriodContext'
 
-const OPTIONS = ['24h', '7d', '30d']
+const OPTIONS = ['24h', '7d', '30d', 'Tudo']
 
 export function PeriodSelector() {
   const { period, setPeriod } = usePeriod()
